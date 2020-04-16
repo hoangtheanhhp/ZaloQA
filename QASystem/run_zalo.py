@@ -1,8 +1,16 @@
 import tensorflow as tf
 from os.path import join, exists
-from preprocess import ZaloDatasetProcessor
-from modeling import BertClassifierModel
+from .preprocess import ZaloDatasetProcessor
+from .modeling import BertClassifierModel
 from bert import tokenization
+import kashgari
+from kashgari.tasks.classification import BiGRU_Model
+from kashgari.embeddings import BERTEmbedding, TransformerEmbedding
+from kashgari.tokenizer import BertTokenizer
+from kashgari.tasks.classification import CNNLSTMModel
+
+import logging
+logging.basicConfig(level='DEBUG')
 
 flags = tf.flags
 FLAGS = flags.FLAGS
@@ -75,110 +83,60 @@ def main(_):
     print("[Main] Starting....")
 
     # Tokenizer initialzation
-    tokenier = tokenization.FullTokenizer(vocab_file=join(FLAGS.bert_model_path, 'vocab.txt'),
-                                          do_lower_case=FLAGS.do_lowercase)
-
-    # Data initialization
-    train_file = join(FLAGS.dataset_path, "train.tfrecords")
-    dev_file = join(FLAGS.dataset_path, "dev.tfrecords")
-    test_file = join(FLAGS.dataset_path, "test.tfrecords")
-
-    def is_preprocessed():
-        if FLAGS.mode.lower() == 'train':
-            return exists(train_file) and exists(dev_file)
-        elif FLAGS.mode.lower() == 'eval':
-            return exists(dev_file)
-        elif FLAGS.mode.lower() == 'predict_test':
-            return exists(test_file)
-        elif FLAGS.mode.lower() == 'predict_manual':
-            return True
-        return False
-
-    if not is_preprocessed():
-        assert exists(join(FLAGS.dataset_path, FLAGS.train_filename)), "[FlagsCheck] Training file doesn't exist"
-        assert exists(join(FLAGS.dataset_path, FLAGS.test_filename)), "[FlagsCheck] Test file doesn't exist"
-
-        print('[Main] No preprocess data found. Begin preprocess')
-        dataset_processor = ZaloDatasetProcessor(dev_size=FLAGS.dev_size)
-        dataset_processor.load_from_path(encode=FLAGS.encoding, dataset_path=FLAGS.dataset_path,
-                                         train_filename=FLAGS.train_filename, test_filename=FLAGS.test_filename,
-                                         dev_filename=FLAGS.dev_filename,
-                                         train_augmented_filename=FLAGS.train_augmented_filename,
-                                         testfile_mode='zalo' if FLAGS.test_predict_outputmode == 'zalo' else 'normal')
-        dataset_processor.write_all_to_tfrecords(encoding=FLAGS.encoding,
-                                                 output_folder=FLAGS.dataset_path,
-                                                 tokenier=tokenier,
-                                                 max_sequence_length=FLAGS.max_sequence_len)
-        print('[Main] Preprocess complete')
-
-    # Model definition
-    model = BertClassifierModel(
-        max_sequence_len=FLAGS.max_sequence_len,
-        label_list=ZaloDatasetProcessor.label_list,
-        learning_rate=FLAGS.model_learning_rate,
-        batch_size=FLAGS.model_batch_size,
-        epochs=FLAGS.train_epochs,
-        dropout_rate=FLAGS.train_dropout_rate,
-        warmup_proportion=FLAGS.bert_warmup_proportion,
-        use_pooled_output=FLAGS.use_pooled_output,
-        loss_type=FLAGS.loss_type,
-        loss_label_smooth=FLAGS.loss_label_smooth,
-        model_dir=FLAGS.model_path,
-        save_checkpoint_steps=FLAGS.save_checkpoint_steps,
-        save_summary_steps=FLAGS.save_summary_steps,
-        keep_checkpoint_max=FLAGS.keep_checkpoint_max,
-        bert_model_path=FLAGS.bert_model_path,
-        tokenizer=tokenier,
-        train_file=train_file if (FLAGS.mode.lower() == 'train') else None,
-        evaluation_file=dev_file,
-        encoding=FLAGS.encoding,
-    )
+    tokenizer = BertTokenizer.load_from_vacob_file(vocab_path)
+    # embed = TransformerEmbedding(vocab_path, config_path, checkpoint_path,
+    #                              bert_type='bert',
+    #                              task=kashgari.CLASSIFICATION,
+    #                              sequence_length=FLAGS.max_sequence_len)
+    processor = ZaloDatasetProcessor()
+    processor.load_from_path("")
+    model = CNNLSTMModel(embed)
 
     # Training/Testing
-    if FLAGS.mode.lower() == 'train':
-        print('[Main] Begin training')
-        eval_result = model.train_and_eval()
-        print('[Main] Training complete.')
-        print('[Main] Evaluation complete')
-        print("Accuracy: {}%".format(eval_result['accuracy'] * 100))
-        print("Loss: {}".format(eval_result['loss']))
-        print("F1 Score: {}".format(eval_result['f1_score'] * 100))
-        print("Recall: {}%".format(eval_result['recall'] * 100))
-        print("Precision: {}%".format(eval_result['precision'] * 100))
-        if FLAGS.eval_predict_csv_file is not None:
-            print('[Main] Development set predict and output to file')
-            _ = model.predict_from_eval_file(test_file=dev_file, output_file=FLAGS.eval_predict_csv_file,
-                                             file_output_mode='full')
-    elif FLAGS.mode.lower() == 'eval':
-        eval_result = model.eval()
-        print('[Main] Evaluation complete')
-        print("Accuracy: {}%".format(eval_result['accuracy'] * 100))
-        print("Loss: {}".format(eval_result['loss']))
-        print("F1 Score: {}".format(eval_result['f1_score'] * 100))
-        print("Recall: {}%".format(eval_result['recall'] * 100))
-        print("Precision: {}%".format(eval_result['precision'] * 100))
-        if FLAGS.eval_predict_csv_file is not None:
-            print('[Main] Development set predict and output to file')
-            _ = model.predict_from_eval_file(test_file=dev_file, output_file=FLAGS.eval_predict_csv_file,
-                                             file_output_mode='full')
-    elif FLAGS.mode.lower() == 'predict_test':
-        print("[Main] Begin Predict based on Test file")
-        results = model.predict_from_eval_file(test_file=test_file, output_file=FLAGS.zalo_predict_csv_file,
-                                               file_output_mode=FLAGS.test_predict_outputmode)
-        print(results)
-    elif FLAGS.mode.lower() == 'predict_manual':
-        while True:
-            question = input("Please enter question here (or empty to exit): ")
-            if question == "":
-                break
-            paragragh = input("Please enter potential answer here here (or empty to exit): ")
-            if paragragh == "":
-                break
-            result = model.predict([(question, paragragh)])[0]
-            print('Prediction: {} with confidence of {}%'
-                  .format(result['prediction'], result['probabilities'] * 100))
-
-    print('[Main] Finished')
+    # if FLAGS.mode.lower() == 'train':
+    #     print('[Main] Begin training')
+    #     eval_result = model.train_and_eval()
+    #     print('[Main] Training complete.')
+    #     print('[Main] Evaluation complete')
+    #     print("Accuracy: {}%".format(eval_result['accuracy'] * 100))
+    #     print("Loss: {}".format(eval_result['loss']))
+    #     print("F1 Score: {}".format(eval_result['f1_score'] * 100))
+    #     print("Recall: {}%".format(eval_result['recall'] * 100))
+    #     print("Precision: {}%".format(eval_result['precision'] * 100))
+    #     if FLAGS.eval_predict_csv_file is not None:
+    #         print('[Main] Development set predict and output to file')
+    #         _ = model.predict_from_eval_file(test_file=dev_file, output_file=FLAGS.eval_predict_csv_file,
+    #                                          file_output_mode='full')
+    # elif FLAGS.mode.lower() == 'eval':
+    #     eval_result = model.eval()
+    #     print('[Main] Evaluation complete')
+    #     print("Accuracy: {}%".format(eval_result['accuracy'] * 100))
+    #     print("Loss: {}".format(eval_result['loss']))
+    #     print("F1 Score: {}".format(eval_result['f1_score'] * 100))
+    #     print("Recall: {}%".format(eval_result['recall'] * 100))
+    #     print("Precision: {}%".format(eval_result['precision'] * 100))
+    #     if FLAGS.eval_predict_csv_file is not None:
+    #         print('[Main] Development set predict and output to file')
+    #         _ = model.predict_from_eval_file(test_file=dev_file, output_file=FLAGS.eval_predict_csv_file,
+    #                                          file_output_mode='full')
+    # elif FLAGS.mode.lower() == 'predict_test':
+    #     print("[Main] Begin Predict based on Test file")
+    #     results = model.predict_from_eval_file(test_file=test_file, output_file=FLAGS.zalo_predict_csv_file,
+    #                                            file_output_mode=FLAGS.test_predict_outputmode)
+    #     print(results)
+    # elif FLAGS.mode.lower() == 'predict_manual':
+    #     while True:
+    #         question = input("Please enter question here (or empty to exit): ")
+    #         if question == "":
+    #             break
+    #         paragragh = input("Please enter potential answer here here (or empty to exit): ")
+    #         if paragragh == "":
+    #             break
+    #         result = model.predict([(question, paragragh)])[0]
+    #         print('Prediction: {} with confidence of {}%'
+    #               .format(result['prediction'], result['probabilities'] * 100))
+    #
+    # print('[Main] Finished')
 
 
 if __name__ == "__main__":
