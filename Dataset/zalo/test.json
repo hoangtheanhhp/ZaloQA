@@ -8857,7 +8857,7 @@
       {
         "id": "p2",
         "text": "Isanavarman kế ngôi Mahendravarman , tiếp tục tấn công \" Với sức mạnh của mình đã vượt qua ranh giới lãnh thổ của Tổ tiên \" .",
-        "label": false
+        "label": true
       },
       {
         "id": "p3",
@@ -8889,7 +8889,7 @@
       {
         "id": "p4",
         "text": "Jayavarman I lật đổ Isanavarman để cai trị một lãnh thổ rộng lớn . Bia ký của ông được tìm thấy trên một vùng lãnh thổ bao gồm cả Sae Mun , Battambang , Seam Reap , Kompong Thom , Takeo , Prey Veng và Kampot .",
-        "label": false
+        "label": true
       },
       {
         "id": "p5",
@@ -8906,12 +8906,12 @@
       {
         "id": "p1",
         "text": "Họ đã dừng lại ở Takeo ( cụm di tích Angkor Borey ) và Prey Veng ( cụm di tích Ba Phnom ) , trung lưu sông Mekong và Đông Bắc biển Hồ . Isanavarman đã xây dựng kinh đô Isanapura ở gần Kompong Thom . Theo \" Tuỳ thư \" của Trung Hoa thì nơi đây có tới 20.000 gia đình sinh sống .",
-        "label": false
+        "label": true
       },
       {
         "id": "p2",
         "text": "Isanavarman đã xây dựng kinh đô Isanapura ở gần Kompong Thom . Theo \" Tuỳ thư \" của Trung Hoa thì nơi đây có tới 20.000 gia đình sinh sống . Ngoài ra vương quốc còn có 30 thành thị do các tổng đốc cai quản và quan tước cũng tựa như Lâm Ấp .",
-        "label": false
+        "label": true
       },
       {
         "id": "p3",
@@ -8943,7 +8943,7 @@
       {
         "id": "p4",
         "text": "Đồng bằng biển thẳm là một đồng bằng dưới biển trên phần sâu của đáy đại dương , phân bố ở độ sâu giữa 3000 và 6000 m từ phần chân của dốc lục địa và sống núi giữa đại dương . Đồng bằng biển thẳm chiếm hơn 50% bề mặt của Trái Đất . Chúng nằm trong số các khu vực bằng phẳng nhất , lặng sóng nhất và ít được khám phá nhất trên Trái Đất .",
-        "label": false
+        "label": true
       },
       {
         "id": "p5",
@@ -9266,7 +9266,7 @@
       {
         "id": "p5",
         "text": "FBP là loại súng tiểu liên sử dụng loại đạn 9  mm được thiết kế và phát triển bởi Gonçalves Cardoso năm 1940 , ông là một chỉ huy pháo binh trong quân đội Bồ Đào Nha . Trong chiến tranh thế giới thứ hai việc phát triển loại vũ khí này bị ngừng lại , FBP được tiếp tục nghiên cứu và đưa vào sản xuất năm 1948 .",
-        "label": false
+        "label": true
       },
       {
         "id": "p6",
@@ -9308,7 +9308,7 @@
       {
         "id": "p6",
         "text": "Tại phương Tây , một lịch Mùa Vọng là một lịch đặc biệt được sử dụng để đếm hoặc kỷ niệm những ngày chờ đợi đến lễ Giáng sinh . Lịch Mùa Vọng hiện nay thường bắt đầu từ ngày 01 tháng 12 cho đến ngày 24 tháng 12 , đôi khi có loại lịch có thể bắt đầu từ Chủ nhật Mùa Vọng đầu tiên , sớm nhất là ngày 27 tháng 11 và trễ nhất là 03 tháng 12 .",
-        "label": false
+        "label": true
       }
     ]
   },
@@ -9340,7 +9340,7 @@
       {
         "id": "p5",
         "text": "Lịch Mùa Vọng hiện nay thường bắt đầu từ ngày 01 tháng 12 cho đến ngày 24 tháng 12 , đôi khi có loại lịch có thể bắt đầu từ Chủ nhật Mùa Vọng đầu tiên , sớm nhất là ngày 27 tháng 11 và trễ nhất là 03 tháng 12 .",
-        "label": false
+        "label": true
       },
       {
         "id": "p6",
@@ -19979,33 +19979,6 @@
       {
         "id": "p4",
         "text": "Vào đầu thế kỷ 19 , cùng với Trường phái Luật lịch sử mà người đại diện nổi bật là Friedrich Karl von Savigny , người ta lại bắt đầu quay lại với Luật La Mã . Ngay các bộ luật dân sự hiện đại - như Bộ luật Dân sự Đức và Bộ luật Dân sự Áo trong văn bản đầu tiên – cũng thành hình trước tiên là từ Luật La Mã .",
-        "label": false
-      }
-    ]
-  },
-  {
-    "__id__": "test_1613",
-    "question": "thành phố thái bình có mấy mùa trong năm",
-    "title": "Thái Bình (thành phố)",
-    "paragraphs": [true
-      {
-        "id": "p1",
-        "text": "Thành phố Thái Bình là thành phố trực thuộc tỉnh , tỉnh lỵ tỉnh Thái Bình , miền Bắc Việt Nam .",
-        "label": false
-      },
-      {
-        "id": "p2",
-        "text": "Ngày 30/6/2004 là ngày thành lập Thành phố Thái Bình . Bí thư Thành uỷ Thái bình hiện nay : Ông Đỗ Đình An . Ngày 12 tháng 12 năm 2013 , Thủ tướng Chính phủ ra Quyết định 2418 / QĐ-TTg công nhận Thành phố Thái Bình là đô thị loại II trực thuộc tỉnh Thái Bình .",
-        "label": false
-      },
-      {
-        "id": "p3",
-        "text": "Lộ trình : Thành phố Thái Bình - Long Hưng - Gia Lễ - Vô Hối - Diêm Điền - Thuỵ Tân .",
-        "label": false
-      },
-      {
-        "id": "p4",
-        "text": "Lộ trình : Thành phố Thái Bình - thị trấn Đông Hưng - Cầu Nghìn - Vĩnh Bảo - Quý Cao - Tứ Kỳ - Thành phố Hải Dương .",
         "label": false
       }
     ]
