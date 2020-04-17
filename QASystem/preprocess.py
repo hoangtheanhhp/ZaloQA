@@ -55,7 +55,6 @@ class ZaloDatasetProcessor(object):
                 return []
 
         # Get train data, convert to input
-        train_data = []
         if mode == "train":
             train_data = read_to_inputs(filepath=join(dataset_path, "train.json"),
                                         encode=encode)
