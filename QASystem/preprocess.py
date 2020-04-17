@@ -57,17 +57,18 @@ class ZaloDatasetProcessor(object):
         # Get train data, convert to input
         if mode == "train":
             train_data = read_to_inputs(filepath=join(dataset_path, "train.json"),
-                                        encode=encode)
+                                        encode=encode, mode="train")
             self.train_data.extend(train_data)
         # Get val data, convert to input
         if mode == "val":
             val_data = read_to_inputs(filepath=join(dataset_path, "val.json"),
-                                      encode=encode)
+                                      encode=encode, mode="val")
             self.val_data.extend(val_data)
 
         if mode == "test":
             test_data = read_to_inputs(filepath=join(dataset_path, "test.json"),
-                                       encode=encode)
+                                       encode=encode, mode="test")
+            self.test_data.extend(test_data)
 
         # Shuffle training data
         random.shuffle(self.train_data)
