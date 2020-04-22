@@ -19,7 +19,7 @@ class ZaloDatasetProcessor(object):
         self.val_data = []
         self.test_data = []
 
-    def load_from_path(self, dataset_path, mode='train', encode='utf-8'):
+    def load_from_path(self, dataset_path, mode='train', file_name='train.json', encode='utf-8'):
         """ Load data from file & store into memory
             Need to be called before preprocess(before write_all_to_tfrecords) is called
             :parameter dataset_path: The path to the directory where the dataset is stored
@@ -47,17 +47,17 @@ class ZaloDatasetProcessor(object):
 
         # Get train data, convert to input
         if mode == "train":
-            train_data = read_to_inputs(filepath=join(dataset_path, "train.json"),
+            train_data = read_to_inputs(filepath=join(dataset_path, file_name),
                                         encode=encode, mode="train")
             self.train_data.extend(train_data)
         # Get val data, convert to input
         if mode == "val":
-            val_data = read_to_inputs(filepath=join(dataset_path, "val.json"),
+            val_data = read_to_inputs(filepath=join(dataset_path, file_name),
                                       encode=encode, mode="val")
             self.val_data.extend(val_data)
 
         if mode == "test":
-            test_data = read_to_inputs(filepath=join(dataset_path, "test.json"),
+            test_data = read_to_inputs(filepath=join(dataset_path, file_name),
                                        encode=encode, mode="test")
             self.test_data.extend(test_data)
 
