@@ -38,6 +38,15 @@ class ZaloDatasetProcessor(object):
             try:
                 with open(filepath, 'r', encoding=encode) as file:
                     data = json.load(file)
+                if mode in ['test']:
+                    returned = []
+                    for data_instance in tqdm(data):
+                        returned.extend({'question': data_instance['question'],
+                                         'text': paragraph_instance['text'],
+                                         'label': paragraph_instance.get('label', None)}
+                                        for paragraph_instance in data_instance['paragraphs'])
+                    return returned
+                else:
                     return [{'question': data_instance['question'],
                              'text': data_instance['text'],
                              'label': data_instance.get('label', False)}
