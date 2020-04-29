@@ -38,8 +38,8 @@ class ZaloDatasetProcessor(object):
             try:
                 with open(filepath, 'r', encoding=encode) as file:
                     data = json.load(file)
-                    data = data.get('data')
                     if mode == 'squad':
+                        data = data.get('data')
                         res = []
                         for d in data:
                             for par in d.get('paragraphs'):
