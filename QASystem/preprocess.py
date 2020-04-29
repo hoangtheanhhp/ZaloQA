@@ -26,7 +26,7 @@ class ZaloDatasetProcessor(object):
             :parameter encode: The encoding of every dataset file
         """
         mode = mode.lower()
-        assert mode in ['train', 'test', 'val'], "[Preprocess] Test file mode must be 'zalo' or 'normal'"
+        assert mode in ['train', 'test', 'val', 'squad'], "[Preprocess] Test file mode must be 'zalo' or 'normal'"
 
         def read_to_inputs(filepath, encode='utf-8', mode='train'):
             """ A helper function that read a json file (Zalo-format) & return a list of input
@@ -38,10 +38,26 @@ class ZaloDatasetProcessor(object):
             try:
                 with open(filepath, 'r', encoding=encode) as file:
                     data = json.load(file)
-                    return [{'question': data_instance['question'],
-                             'text': data_instance['text'],
-                             'label': data_instance.get('label', False)}
-                            for data_instance in tqdm(data)]
+                    data = data.get('data')
+                    if mode == 'squad':
+                        res = []
+                        for d in data:
+                            for par in d.get('paragraphs'):
+                                for qas in par.get('qas'):
+                                    ques = qas.get('question')
+                                    answer = qas.get('answers')
+                                    if answer and len(answer) > 0:
+                                        answer = answer[0]
+                                        res.append({'question': ques,
+                                                     'text': answer.get('text'),
+                                                     'label': qas.get('is_impossible')})
+                        return res
+
+                    else:
+                        return [{'question': data_instance['question'],
+                                 'text': data_instance['text'],
+                                 'label': data_instance.get('label', False)}
+                                for data_instance in tqdm(data)]
             except FileNotFoundError:
                 return []
 
@@ -60,6 +76,11 @@ class ZaloDatasetProcessor(object):
             test_data = read_to_inputs(filepath=join(dataset_path, file_name),
                                        encode=encode, mode="test")
             self.test_data.extend(test_data)
+
+        if mode == "squad":
+            train_data = read_to_inputs(filepath=join(dataset_path, file_name),
+                                        encode=encode, mode="squad")
+            self.train_data.extend(train_data)
 
         # Shuffle training data
         random.shuffle(self.train_data)
