@@ -42,15 +42,18 @@ class ZaloDatasetProcessor(object):
                         data = data.get('data')
                         res = []
                         for d in data:
-                            for par in d.get('paragraphs'):
+                            for par in tqdm(d.get('paragraphs')):
                                 for qas in par.get('qas'):
                                     ques = qas.get('question')
                                     answer = qas.get('answers')
+                                    label = qas.get('is_impossible')
+                                    if label:
+                                        answer = qas.get('plausible_answers')
                                     if answer and len(answer) > 0:
                                         answer = answer[0]
                                         res.append({'question': ques,
                                                      'text': answer.get('text'),
-                                                     'label': qas.get('is_impossible')})
+                                                     'label': label})
                         return res
 
                     else:
