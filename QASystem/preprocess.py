@@ -41,7 +41,7 @@ class ZaloDatasetProcessor(object):
                     if mode == 'squad':
                         data = data.get('data')
                         res = []
-                        for d in tqdm(data):
+                        for d in data:
                             for par in d.get('paragraphs'):
                                 for qas in par.get('qas'):
                                     ques = qas.get('question')
