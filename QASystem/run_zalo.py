@@ -84,13 +84,14 @@ def main(_):
 
     # Tokenizer initialzation
     tokenizer = BertTokenizer.load_from_vacob_file(vocab_path)
-    # embed = TransformerEmbedding(vocab_path, config_path, checkpoint_path,
-    #                              bert_type='bert',
-    #                              task=kashgari.CLASSIFICATION,
-    #                              sequence_length=FLAGS.max_sequence_len)
+    embed = TransformerEmbedding(vocab_path, config_path, checkpoint_path,
+                                 bert_type='bert',
+                                 task=kashgari.CLASSIFICATION,
+                                 sequence_length=FLAGS.max_sequence_len)
     processor = ZaloDatasetProcessor()
     processor.load_from_path("")
     model = CNNLSTMModel(embed)
+    model.evaluate()
 
     # Training/Testing
     # if FLAGS.mode.lower() == 'train':
