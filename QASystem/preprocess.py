@@ -43,17 +43,22 @@ class ZaloDatasetProcessor(object):
                         res = []
                         for d in data:
                             for par in d.get('paragraphs'):
+                                context = par.get('context')
                                 for qas in par.get('qas'):
-                                    ques = qas.get('question')
-                                    answer = qas.get('answers')
-                                    label = qas.get('is_impossible')
-                                    if label:
-                                        answer = qas.get('plausible_answers')
-                                    if answer and len(answer) > 0:
-                                        answer = answer[0]
+                                    try:
+                                        ques = qas.get('question')
+                                        # answer = qas.get('answers')
+                                        label = qas.get('is_impossible')
+                                        # if label:
+                                        #     answer_start = qas.get('plausible_answers')[0]['answer_start']
+                                        #     answer = ' '.join(context.split(' ')[answer_start:])
+                                        # else:
+                                        #     answer = ''
                                         res.append({'question': ques,
-                                                     'text': answer.get('text'),
+                                                     'text': context,
                                                      'label': label})
+                                    except:
+                                        pass
                         return res
 
                     else:
