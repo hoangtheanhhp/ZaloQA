@@ -8,12 +8,14 @@
 * *Dataset* contains the dataset that is used in this project.
 
 ## How to run
-Details on how to train/predict using the model is described [here](https://github.com/hoangtheanhhp/ZaloQA/bert_lstm/Readme.md)
-
+Details on how to train/predict using the model is described [here](https://github.com/hoangtheanhhp/ZaloQA/blob/bert_lstm/Readme.md)
+- You need register a google storage account at [here](https://cloud.google.com/).
+- Use colab to train with mode Multi-label Text Classification using BERT [colab](https://colab.research.google.com/github/hoangtheanhhp/ZaloQA/blob/bert_lstm/Zalo_AI_anhht.ipynb)
+- Use colab to train with model BERT Embedding + Bi-LSTM [colab](https://colab.research.google.com/github/hoangtheanhhp/ZaloQA/blob/bert_lstm/QASystem/run_zalo.ipynb)
 
 ## What we have tried
 
-- [x] Apply BERT as baseline for the [QA problem defined by Zalo](https://challenge.zalo.ai/portal/question-answering)
+- [x] Apply BERT as baseline for the [QA problem defined by Zalo](https://challenge.zalo.ai/portal/question-answering). Link colab [here](https://github.com/hoangtheanhhp/ZaloQA/blob/bert_lstm/QASystem/run_zalo.ipynb).
 - [x] Data augmented using the [SQuAD dataset](https://rajpurkar.github.io/SQuAD-explorer/) by translating
 - [x] Improve BERT by trying different approaches ([BERT Embedding + Bi-LSTM](https://github.com/hoangtheanhhp/ZaloQA/blob/bert_lstm/Zalo_AI_anhht.ipynb) but yield no improvements
 - [x] Try different loss function for the classification problem ((Squared) Hinge loss, KLD loss & Focal loss) along with label smoothing, but yield no improvements
