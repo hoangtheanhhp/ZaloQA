@@ -1,31 +1,23 @@
 # Zalo AI Challenge 2019 - Vietnamese Wikipedia Question Answering
 
 ## General
-This repository represents the works of the Nanibot Team on the **Vietnamese Wikipedia Question Answering** task on the **Zalo AI Challenge 2019**.
-
-The works on this repository is based on a previous work on a similar task ([Question Answering for regulations of UIT](https://github.com/phateopera/UITHelper_QAS))
+**Vietnamese Wikipedia Question Answering** task on the **Zalo AI Challenge 2019**.
 
 ## Structures
 * *QASystem* and *Ultilities* contain source codes, base model as well as fine-tuning models and dataset used in this project. Guide on how to setup and re-produce the result is also provided.
 * *Dataset* contains the dataset that is used in this project.
 
-## Team Members
-* [Nguyễn Việt Nam](https://github.com/phateopera)
-* [Trần Trí Nguyên](https://github.com/nguyentranforte1609)
-* [Nguyễn Minh Hiếu](https://github.com/hieudepchai)
-* [Nguyễn Trường Phát](https://github.com/patrickphatnguyen)
-
 ## How to run
-Details on how to train/predict using the model is described [here](https://github.com/phateopera/Nanibot_ZaloAIChallenge2019_VietnameseWikiQA/blob/master/QASystem/Readme.md)
+Details on how to train/predict using the model is described [here](https://github.com/hoangtheanhhp/ZaloQA/bert_lstm/Readme.md)
 
 
 ## What we have tried
 
 - [x] Apply BERT as baseline for the [QA problem defined by Zalo](https://challenge.zalo.ai/portal/question-answering)
-- [x] Data augmented using the [SQuAD dataset](https://rajpurkar.github.io/SQuAD-explorer/) by translating & [de-noising](www.lrec-conf.org/proceedings/lrec2018/pdf/711.pdf), resulted in 1% F1 boost compared to the baseline model
-- [x] Improve BERT by trying different approaches ([BERT + TextCNN](https://github.com/phateopera/Nanibot_ZaloAIChallenge2019_VietnameseWikiQA/tree/bert_and_textcnn), BERT with additional fully-connected layer [(1)](https://github.com/phateopera/Nanibot_ZaloAIChallenge2019_VietnameseWikiQA/tree/add_fc1), [(2)](https://github.com/phateopera/Nanibot_ZaloAIChallenge2019_VietnameseWikiQA/tree/add_fc1_squad_based)), but yield no improvements
+- [x] Data augmented using the [SQuAD dataset](https://rajpurkar.github.io/SQuAD-explorer/) by translating
+- [x] Improve BERT by trying different approaches ([BERT Embedding + Bi-LSTM](https://github.com/hoangtheanhhp/ZaloQA/blob/bert_lstm/Zalo_AI_anhht.ipynb) but yield no improvements
 - [x] Try different loss function for the classification problem ((Squared) Hinge loss, KLD loss & Focal loss) along with label smoothing, but yield no improvements
-- [ ] Data augmented using backtranslation
-- [ ] Apply [multilligual RoBERTa](https://github.com/pytorch/fairseq/tree/master/examples/xlmr) for the problem
+- [ ] Apply [PhoBERT](https://github.com/VinAIResearch/PhoBERT) for the problem
+- [ ] Apply [AlBERT_vi](https://github.com/ngoanpv/albert_vi) for the problem
 
-Our solution yeild an F1 score of *79.15%*, ranked *11* in the public leaderboard of the Zalo AI Challenge 2019 for the Vietnamese Wiki Question Answering problem for the public test set.
+Our solution yeild an F1 score of *71.84%* on private datasets.
