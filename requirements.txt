@@ -5,7 +5,7 @@ tqdm
 pandas
 underthesea
 scikit-learn
-numpy==1.16.4
+numpy==1.22.0
 h5py
 keras-bert>=0.50.0
 keras-gpt-2>=0.8.0
